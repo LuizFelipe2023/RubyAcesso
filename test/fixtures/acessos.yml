@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assunto: MyString
+  pessoa: one
+  entrada: 2026-01-15 13:47:25
+  saida: 2026-01-15 13:47:25
+
+two:
+  assunto: MyString
+  pessoa: two
+  entrada: 2026-01-15 13:47:25
+  saida: 2026-01-15 13:47:25

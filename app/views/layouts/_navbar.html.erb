@@ -1,0 +1,156 @@
+<nav class="bg-gray-900 border-b border-gray-800 shadow-lg fixed w-full z-20 top-0 h-16" data-controller="navbar">
+  <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+    
+      <div class="flex items-center space-x-8">
+
+      
+        <%= link_to (Current.user ? pessoas_path : root_path), class: "flex items-center group" do %>
+          <div class="p-2 bg-gray-800 rounded-lg group-hover:bg-gray-700 transition">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <span class="ml-3 text-xl font-bold text-white hidden sm:inline group-hover:text-gray-300 transition">
+            Controle de Acesso
+          </span>
+        <% end %>
+
+      
+        <% if Current.user %>
+          <div class="hidden md:flex items-center space-x-1">
+
+            <%= link_to acessos_path,
+                  class: "px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 #{current_page?(acessos_path) ? 'bg-gray-800 text-white' : 'text-gray-300 hover:text-white hover:bg-gray-800'}" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              Acessos
+            <% end %>
+
+            <%= link_to pessoas_path,
+                  class: "px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 #{current_page?(pessoas_path) ? 'bg-gray-800 text-white' : 'text-gray-300 hover:text-white hover:bg-gray-800'}" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              Pessoas
+            <% end %>
+
+            <% if Current.user.isAdmin %>
+              <%= link_to users_path,
+                    class: "px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 #{current_page?(users_path) ? 'bg-gray-800 text-white' : 'text-gray-300 hover:text-white hover:bg-gray-800'}" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a4 4 0 00-4-4h-1m-4 6H2v-2a4 4 0 014-4h1m4-4a4 4 0 100-8 4 4 0 000 8zm6 0a4 4 0 100-8 4 4 0 000 8z"/>
+                </svg>
+                Usuários
+              <% end %>
+            <% end %>
+
+
+          </div>
+        <% end %>
+      </div>
+
+   
+      <div class="flex items-center space-x-3">
+
+        <% if Current.user %>
+         
+          <div class="relative">
+            <button
+              type="button"
+              data-action="click->navbar#toggleUserMenu"
+              data-navbar-target="userButton"
+              class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-800 transition focus:outline-none focus:ring-2 focus:ring-gray-700"
+            >
+              <div class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center border border-gray-700">
+                <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+              </div>
+
+              <span class="text-sm font-medium text-gray-300 hidden md:inline">
+                <%= Current.user.email_address %>
+              </span>
+
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+
+            <div
+              data-navbar-target="userMenu"
+              class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 z-50 py-1"
+            >
+              <div class="px-4 py-2 border-b border-gray-700">
+                <p class="text-sm font-medium text-white">Usuário</p>
+                <p class="text-xs text-gray-400 truncate">
+                  <%= Current.user.email_address %>
+                </p>
+              </div>
+
+              <div class="py-1">
+                <%= button_to "Sair",
+                      session_path,
+                      method: :delete,
+                      class: "w-full text-left px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-gray-700 transition" %>
+              </div>
+            </div>
+          </div>
+
+         
+          <button
+            data-action="click->navbar#toggleMobileMenu"
+            data-navbar-target="mobileButton"
+            class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 transition focus:outline-none focus:ring-2 focus:ring-gray-700"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+
+        <% else %>
+         
+          <%= link_to "Entrar",
+                new_session_path,
+                class: "px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+  <div
+    data-navbar-target="mobileMenu"
+    class="hidden md:hidden bg-gray-800 border-t border-gray-700"
+  >
+    <% if Current.user %>
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <%= link_to acessos_path,
+              class: "block px-3 py-2 rounded-lg text-base font-medium transition flex items-center gap-3 #{current_page?(acessos_path) ? 'bg-gray-700 text-white' : 'text-gray-300 hover:text-white hover:bg-gray-700'}" do %>
+          Acessos
+        <% end %>
+
+        <%= link_to pessoas_path,
+              class: "block px-3 py-2 rounded-lg text-base font-medium transition flex items-center gap-3 #{current_page?(pessoas_path) ? 'bg-gray-700 text-white' : 'text-gray-300 hover:text-white hover:bg-gray-700'}" do %>
+          Pessoas
+        <% end %>
+        
+        <% if Current.user.isAdmin %>
+          <%= link_to users_path,
+                class: "block px-3 py-2 rounded-lg text-base font-medium transition flex items-center gap-3 #{current_page?(users_path) ? 'bg-gray-700 text-white' : 'text-gray-300 hover:text-white hover:bg-gray-700'}" do %>
+            Usuários
+          <% end %>
+        <% end %>
+
+      </div>
+    <% end %>
+  </div>
+</nav>

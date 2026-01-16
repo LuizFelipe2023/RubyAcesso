@@ -1,0 +1,91 @@
+<% content_for :title, user.persisted? ? "Editar Usuário" : "Novo Usuário" %>
+
+<div class="max-w-2xl mx-auto my-10">
+  <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+
+    <div class="px-8 py-6 border-b border-gray-100">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="p-3 bg-gray-100 rounded-lg">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2m8-10a4 4 0 110-8 4 4 0 010 8z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">
+              <%= user.persisted? ? "Editar Usuário" : "Novo Usuário" %>
+            </h1>
+            <p class="text-gray-500 text-sm mt-1">
+              <%= user.persisted? ? "Atualize os dados do usuário" : "Cadastre um novo usuário" %>
+            </p>
+          </div>
+        </div>
+
+        <%= link_to users_path,
+              class: "inline-flex items-center gap-2 px-4 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg font-medium transition" do %>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Voltar
+        <% end %>
+      </div>
+    </div>
+
+  
+    <div class="p-8">
+      <% if user.errors.any? %>
+        <div class="mb-8 p-5 bg-red-50 border border-red-200 rounded-xl">
+          <h3 class="font-semibold text-red-800 mb-2">
+            <%= pluralize(user.errors.count, "erro encontrado", "erros encontrados") %>
+          </h3>
+          <ul class="space-y-1">
+            <% user.errors.full_messages.each do |msg| %>
+              <li class="text-sm text-red-700">• <%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: user, class: "space-y-8" do |form| %>
+
+        <div class="space-y-2">
+          <%= form.label :email_address, "Email", class: "text-sm font-medium text-gray-700" %>
+          <%= form.email_field :email_address,
+                class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400" %>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <%= form.label :password, "Senha", class: "text-sm font-medium text-gray-700" %>
+            <%= form.password_field :password,
+                  placeholder: user.persisted? ? "Deixe em branco para não alterar" : "Digite a senha",
+                  class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400" %>
+          </div>
+
+          <div class="space-y-2">
+            <%= form.label :password_confirmation, "Confirmar senha", class: "text-sm font-medium text-gray-700" %>
+            <%= form.password_field :password_confirmation,
+                  placeholder: user.persisted? ? "Confirme a nova senha" : "Confirme a senha",
+                  class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400" %>
+          </div>
+        </div>
+
+
+        <div class="flex items-center gap-3">
+          <%= form.check_box :isAdmin,
+                class: "h-5 w-5 rounded border-gray-300 text-gray-900 focus:ring-gray-400" %>
+          <%= form.label :isAdmin, "Usuário administrador",
+                class: "text-sm font-medium text-gray-700" %>
+        </div>
+
+        <div class="pt-6 border-t border-gray-100 flex justify-end">
+          <%= form.submit user.persisted? ? "Atualizar Usuário" : "Criar Usuário",
+                class: "px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg font-medium transition" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

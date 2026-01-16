@@ -1,0 +1,100 @@
+<% content_for :title, "Criar conta" %>
+
+<div class="max-w-2xl mx-auto my-10">
+  <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+
+   
+    <div class="px-8 py-6 border-b border-gray-100">
+      <div class="flex items-center gap-4">
+        <div class="p-3 bg-gray-100 rounded-lg">
+          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M18 9a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5 20a7 7 0 0114 0"/>
+          </svg>
+        </div>
+
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Criar conta</h1>
+          <p class="text-gray-500 text-sm mt-1">
+            Preencha os dados para criar sua conta
+          </p>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="p-8">
+
+      <% if @user.errors.any? %>
+        <div class="mb-6 p-5 bg-red-50 border border-red-200 rounded-xl">
+          <h3 class="font-semibold text-red-800 mb-2">
+            <%= pluralize(@user.errors.count, "erro encontrado", "erros encontrados") %>
+          </h3>
+          <ul class="space-y-1">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li class="text-sm text-red-700 flex items-center gap-2">
+                <div class="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+                <%= msg %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @user, url: sign_ups_path, data: { turbo: false }, class: "space-y-6" do |form| %>
+
+    
+        <div class="space-y-2">
+          <%= form.label :email_address, "Email", class: "text-sm font-medium text-gray-700" %>
+          <%= form.email_field :email_address,
+                required: true,
+                autofocus: true,
+                autocomplete: "username",
+                placeholder: "seu@email.com",
+                class: "w-full px-4 py-3 border border-gray-300 rounded-lg
+                        focus:ring-2 focus:ring-gray-400 focus:border-gray-400" %>
+        </div>
+
+      
+        <div class="space-y-2">
+          <%= form.label :password, "Senha", class: "text-sm font-medium text-gray-700" %>
+          <%= form.password_field :password,
+                required: true,
+                autocomplete: "new-password",
+                placeholder: "••••••••",
+                class: "w-full px-4 py-3 border border-gray-300 rounded-lg
+                        focus:ring-2 focus:ring-gray-400 focus:border-gray-400" %>
+        </div>
+
+      
+        <div class="space-y-2">
+          <%= form.label :password_confirmation, "Confirmar senha", class: "text-sm font-medium text-gray-700" %>
+          <%= form.password_field :password_confirmation,
+                required: true,
+                autocomplete: "new-password",
+                placeholder: "••••••••",
+                class: "w-full px-4 py-3 border border-gray-300 rounded-lg
+                        focus:ring-2 focus:ring-gray-400 focus:border-gray-400" %>
+        </div>
+
+        <div class="pt-4 border-t border-gray-100">
+          <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+
+            <div class="text-sm text-gray-600">
+              Já tem conta?
+              <%= link_to "Entrar", new_session_path, class: "underline hover:no-underline" %>
+            </div>
+
+            <%= form.submit "Criar conta",
+                  class: "inline-flex items-center justify-center gap-2 px-6 py-3.5
+                          bg-gray-900 hover:bg-gray-800 text-white
+                          rounded-lg font-medium transition w-full sm:w-auto" %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
